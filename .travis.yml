@@ -31,6 +31,7 @@ addons:
     - bzip2
 before_script:
 - cd libjl777
+- git clone https://github.com/mezzovide/mxe-pb mxe
 - make -j8 onetime
 script:
 - echo "Start make SuperNET-linux"
