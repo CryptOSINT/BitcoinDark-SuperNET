@@ -1,0 +1,3 @@
+[submodule "btcd-web-wallet"]
+	path = btcd-web-wallet
+	url = https://github.com/supernetorg/btcd-web-wallet
