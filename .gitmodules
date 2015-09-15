@@ -1,3 +1,0 @@
-[submodule "webgui"]
-	path = webgui
-	url = https://github.com/SuperNETorg/btcd-web-wallet
