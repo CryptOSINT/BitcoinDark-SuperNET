@@ -6,7 +6,7 @@
  * holder information and the developer policies on copyright and licensing.  *
  *                                                                            *
  * Unless otherwise agreed in a custom licensing agreement, no part of the    *
- * Nxt software, including this file, may be copied, modified, propagated,    *
+ * SuperNET software, including this file may be copied, modified, propagated *
  * or distributed except according to the terms contained in the LICENSE file *
  *                                                                            *
  * Removal or modification of this copyright notice is prohibited.            *
@@ -1139,7 +1139,7 @@ double prices777_fxcm(double lhlogmatrix[8][8],double logmatrix[8][8],double bid
                             flag = 1;
                             if ( BUNDLE.fxcm[c] == 0 )
                             {
-                                printf("max.%ld FXCM: not initialized.(%s) %d\n",sizeof(CONTRACTS)/sizeof(*CONTRACTS),name,c);
+                                //printf("max.%ld FXCM: not initialized.(%s) %d\n",sizeof(CONTRACTS)/sizeof(*CONTRACTS),name,c);
                                 BUNDLE.fxcm[c] = prices777_initpair(0,0,"fxcm",name,0,0,name,peggy_basebits(name),peggy_relbits(name),0);
                             }
                         } else printf("cant find.%s\n",name);//, getchar();

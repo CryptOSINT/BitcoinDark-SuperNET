@@ -6,7 +6,7 @@
  * holder information and the developer policies on copyright and licensing.  *
  *                                                                            *
  * Unless otherwise agreed in a custom licensing agreement, no part of the    *
- * Nxt software, including this file, may be copied, modified, propagated,    *
+ * SuperNET software, including this file may be copied, modified, propagated *
  * or distributed except according to the terms contained in the LICENSE file *
  *                                                                            *
  * Removal or modification of this copyright notice is prohibited.            *
@@ -1373,6 +1373,12 @@ char *InstantDEX_tradesequence(char *activenxt,char *secret,cJSON *json)
     {
         if ( n > sizeof(trades)/sizeof(*trades) )
             return(clonestr("{\"error\":\"exceeded max trades possible in a tradesequence\"}"));
+        if ( n == 1 && is_cJSON_Array(jitem(array,0)) != 0 )
+        {
+            printf("NESTED ARRAY DETECTED\n");
+            array = jitem(array,0);
+            n = cJSON_GetArraySize(array);
+        }
         timestamp = (uint32_t)time(NULL);
         for (i=0; i<n; i++)
         {
@@ -1415,7 +1421,12 @@ char *InstantDEX_tradesequence(char *activenxt,char *secret,cJSON *json)
                     order->wt = dir, order->s.price = orderprice, order->s.vol = ordervolume;
                     printf("item[%d] dir.%d baseid.%llu relid.%llu sendbase.%llu recvbase.%llu sendrel.%llu recvrel.%llu | baseqty.%lld relqty.%lld\n",i,dir,(long long)order->s.baseid,(long long)order->s.relid,(long long)sendbase,(long long)recvbase,(long long)sendrel,(long long)recvrel,(long long)order->s.baseamount,(long long)order->s.relamount);
                 } else return(clonestr("{\"error\":\"invalid exchange or contract pair\"}"));
-            } else return(clonestr("{\"error\":\"no trade specified\"}"));
+            }
+            else
+            {
+                printf("item.(%s)\n",jprint(item,0));
+                return(clonestr("{\"error\":\"no trade specified\"}"));
+            }
         }
         return(InstantDEX_dotrades(activenxt,secret,json,trades,n,juint(json,"dotrade"),jstr(json,"extra")));
     }

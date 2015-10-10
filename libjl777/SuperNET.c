@@ -6,7 +6,7 @@
  * holder information and the developer policies on copyright and licensing.  *
  *                                                                            *
  * Unless otherwise agreed in a custom licensing agreement, no part of the    *
- * Nxt software, including this file, may be copied, modified, propagated,    *
+ * SuperNET software, including this file may be copied, modified, propagated *
  * or distributed except according to the terms contained in the LICENSE file *
  *                                                                            *
  * Removal or modification of this copyright notice is prohibited.            *
@@ -179,8 +179,9 @@ char *process_nn_message(int32_t sock,char *jsonstr)
 
 char *process_jl777_msg(char *buf,int32_t bufsize,char *previpaddr,char *jsonstr,int32_t duration)
 {
+    char *Pangea_bypass(uint64_t my64bits,uint8_t myprivkey[32],cJSON *json);
     char *process_user_json(char *plugin,char *method,char *cmdstr,int32_t broadcastflag,int32_t timeout);
-    struct destbuf plugin,method,request; char *bstr,*retstr;
+    struct destbuf plugin,method,request; char *bstr,*retstr=0;
     uint64_t daemonid,instanceid,tag;
     int32_t override=0,broadcastflag = 0;
     cJSON *json;
@@ -194,9 +195,17 @@ char *process_jl777_msg(char *buf,int32_t bufsize,char *previpaddr,char *jsonstr
         //fprintf(stderr,"SuperNET_JSON override.%d\n",override);
         if ( plugin.buf[0] == 0 )
             copy_cJSON(&plugin,cJSON_GetObjectItem(json,"agent"));
-        if ( override == 0 && strcmp(plugin.buf,"InstantDEX") == 0 )
+        if ( override == 0 && (previpaddr == 0 || previpaddr[0] == 0) && (strcmp(plugin.buf,"InstantDEX") == 0 || strcmp(plugin.buf,"pangea") == 0) )
         {
-            if ( (retstr= InstantDEX(jsonstr,0,1)) != 0 )
+            if ( strcmp(plugin.buf,"pangea") == 0 )
+            {
+                if ( (retstr= Pangea_bypass(SUPERNET.my64bits,SUPERNET.myprivkey,json)) != 0 )
+                {
+                    free(json);
+                    return(retstr);
+                }
+            }
+            else if ( (retstr= InstantDEX(jsonstr,0,1)) != 0 )
             {
                 free_json(json);
                 return(retstr);
@@ -305,6 +314,9 @@ void SuperNET_loop(void *ipaddr)
     {
         strs[n++] = language_func((char *)"jumblr","",0,0,1,(char *)"jumblr",jsonargs,call_system);
         while ( RELAYS.readyflag == 0 || find_daemoninfo(&ind,"jumblr",0,0) == 0 )
+            poll_daemons();
+        strs[n++] = language_func((char *)"pangea","",0,0,1,(char *)"pangea",jsonargs,call_system);
+        while ( find_daemoninfo(&ind,"pangea",0,0) == 0 )
             poll_daemons();
         //strs[n++] = language_func((char *)"dcnet","",0,0,1,(char *)"dcnet",jsonargs,call_system);
         //while ( RELAYS.readyflag == 0 || find_daemoninfo(&ind,"dcnet",0,0) == 0 )
@@ -776,8 +788,17 @@ int main(int argc,const char *argv[])
     cJSON *json = 0;
     uint64_t ipbits,allocsize;
 #ifdef __APPLE__
-    //void poker_test();
-    //poker_test(); getchar();
+    if ( 0 )
+    {
+        //void poker_test();
+        //poker_test(); getchar();
+        //void raft777_test();
+        void hostnet777_test(int32_t numclients,int32_t numiters,int32_t mode);
+        void portable_OS_init();
+        //raft777_test();
+        int numplayers = 9;
+        portable_OS_init(), hostnet777_test(numplayers,10 * (numplayers + numplayers * (numplayers*2 + 5 + 1)),0), getchar();
+    }
 #endif
     if ( (jsonstr= loadfile(&allocsize,"SuperNET.conf")) == 0 )
         jsonstr = clonestr("{}");

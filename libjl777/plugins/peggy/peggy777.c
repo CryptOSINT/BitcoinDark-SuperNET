@@ -6,7 +6,7 @@
  * holder information and the developer policies on copyright and licensing.  *
  *                                                                            *
  * Unless otherwise agreed in a custom licensing agreement, no part of the    *
- * Nxt software, including this file, may be copied, modified, propagated,    *
+ * SuperNET software, including this file may be copied, modified, propagated *
  * or distributed except according to the terms contained in the LICENSE file *
  *                                                                            *
  * Removal or modification of this copyright notice is prohibited.            *
@@ -36,7 +36,7 @@
 #define PEGGY_HOURTICKS (PEGGY_MINUTE * 60)
 #define PEGGY_DAYTICKS (24 * PEGGY_HOURTICKS)
 #define MAX_TIMEFRAME (24 * 3600 * 365)
-#define MAX_PEGGYDAYS (365 * 2)
+#define MAX_PEGGYDAYS (365)
 #define PEGGY_MINEXTRADAYS 3
 
 #define PEGGY_MAXPRICEDPEGS 64

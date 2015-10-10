@@ -6,7 +6,7 @@
  * holder information and the developer policies on copyright and licensing.  *
  *                                                                            *
  * Unless otherwise agreed in a custom licensing agreement, no part of the    *
- * Nxt software, including this file, may be copied, modified, propagated,    *
+ * SuperNET software, including this file may be copied, modified, propagated *
  * or distributed except according to the terms contained in the LICENSE file *
  *                                                                            *
  * Removal or modification of this copyright notice is prohibited.            *
@@ -232,14 +232,23 @@ bits256 curve25519(bits256 mysecret,bits256 theirpublic)
 uint64_t conv_NXTpassword(unsigned char *mysecret,unsigned char *mypublic,uint8_t *pass,int32_t passlen)
 {
     static uint8_t basepoint[32] = {9};
-    uint64_t addr;
-    uint8_t hash[32];
-    calc_sha256(0,mysecret,pass,passlen);
+    uint64_t addr; uint8_t hash[32];
+    if ( pass != 0 && passlen != 0 )
+        calc_sha256(0,mysecret,pass,passlen);
     mysecret[0] &= 248, mysecret[31] &= 127, mysecret[31] |= 64;
     curve25519_donna(mypublic,mysecret,basepoint);
     calc_sha256(0,hash,mypublic,32);
     memcpy(&addr,hash,sizeof(addr));
     return(addr);
+}
+
+uint64_t nxt_priv2addr(char *rsaddr,char *pubkeystr,uint8_t priv[32])
+{
+    uint64_t nxtaddr; uint8_t pub[32];
+    nxtaddr = conv_NXTpassword(priv,pub,0,0);
+    init_hexbytes_noT(pubkeystr,pub,32);
+    RS_encode(rsaddr,nxtaddr);
+    return(nxtaddr);
 }
 
 bits256 issue_getpubkey(int32_t *haspubkeyp,char *acct)
@@ -1270,7 +1279,7 @@ int32_t process_assettransfer(uint32_t *heightp,uint64_t *senderbitsp,uint64_t *
     cJSON *attachment,*message,*assetjson,*commentobj,*json = 0,*obj; struct NXT_AMhdr *hdr;
     uint64_t units,estNXT; uint32_t buyNXT,height = 0; int32_t funcid,numconfs,coinv = -1,timestamp=0;
     int64_t type,subtype,n,satoshis,assetoshis = 0;
-    *flagp = MGW_IGNORE, *amountp = *senderbitsp = *receiverbitsp = *heightp = 0;
+    *flagp = MGW_IGNORE*0, *amountp = *senderbitsp = *receiverbitsp = *heightp = 0;
     if ( txobj != 0 )
     {
         hdr = 0, sender.buf[0] = receiver.buf[0] = 0;

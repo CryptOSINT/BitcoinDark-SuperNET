@@ -6,7 +6,7 @@
  * holder information and the developer policies on copyright and licensing.  *
  *                                                                            *
  * Unless otherwise agreed in a custom licensing agreement, no part of the    *
- * Nxt software, including this file, may be copied, modified, propagated,    *
+ * SuperNET software, including this file may be copied, modified, propagated *
  * or distributed except according to the terms contained in the LICENSE file *
  *                                                                            *
  * Removal or modification of this copyright notice is prohibited.            *
@@ -113,7 +113,7 @@ void *accts777_key(union peggy_addr *addr,int32_t type)
     void *key;
     switch ( type )
     {
-        case PEGGY_ADDRFUNDING: case PEGGY_ADDRBTCD: key = addr->coinaddr; break;
+        case PEGGY_ADDRFUNDING: case PEGGY_ADDRBTCD: key = &addr->coinaddr; break;
         case PEGGY_ADDRNXT: key = &addr->nxt64bits; break;
         case PEGGY_ADDR777: key = &addr->SaMbits; break;
         case PEGGY_ADDRCREATE: key = &addr->newunit.sha256; break;

@@ -249,7 +249,7 @@ void calc_shares(unsigned char *shares,unsigned char *secret,int32_t size,int32_
     {
         uint32_t _crc32(uint32_t crc, const void *buf, size_t size);
         calc_share(buffer,size,M,ctx_logs[sharenrs[i]],&shares[i * width]);
-        printf("(%02x %08x) ",sharenrs[i],_crc32(0,&shares[i*width],size));
+        //printf("(%02x %08x) ",sharenrs[i],_crc32(0,&shares[i*width],size));
     }
     free(buffer);
 }
@@ -315,14 +315,15 @@ void gfshare_ctx_dec_extract(gfshare_ctx *ctx,unsigned char *secretbuf)
 
 int32_t init_sharenrs(unsigned char sharenrs[255],unsigned char *orig,int32_t m,int32_t n)
 {
-    unsigned char randvals[65536],valid[255];
+    unsigned char *randvals,valid[255];
     int32_t i,j,r,remains,orign;
     if ( m > n || n >= 0xff ) // reserve 255 for illegal sharei
     {
         printf("illegal M.%d of N.%d\n",m,n);
         return(-1);
     }
-    gfshare_fill_rand(randvals,sizeof(randvals));
+    randvals = calloc(1,65536);
+    gfshare_fill_rand(randvals,65536);
     memset(sharenrs,0,n);
     if ( orig == 0 && n == m )
     {
@@ -333,10 +334,10 @@ int32_t init_sharenrs(unsigned char sharenrs[255],unsigned char *orig,int32_t m,
         {
             r = (randvals[i] % remains);
             sharenrs[i] = valid[r];
-            printf("%d ",sharenrs[i]);
+            //printf("%d ",sharenrs[i]);
             valid[r] = valid[--remains];
         }
-        printf("FULL SET\n");
+        //printf("FULL SET\n");
     }
     else
     {
@@ -346,9 +347,9 @@ int32_t init_sharenrs(unsigned char sharenrs[255],unsigned char *orig,int32_t m,
         i = j = 0;
         while ( i < m )
         {
-            if ( j >= sizeof(randvals) )
+            if ( j >= 65536 )
             {
-                gfshare_fill_rand(randvals,sizeof(randvals));
+                gfshare_fill_rand(randvals,65536);
                 printf("refill j.%d\n",j);
                 j = 0;
             }
@@ -366,7 +367,8 @@ int32_t init_sharenrs(unsigned char sharenrs[255],unsigned char *orig,int32_t m,
         //    printf("%d ",sharenrs[i]);
         //printf("sharenrs vals | ");
     }
-     //printf("sharenrs m.%d of n.%d\n",m,n);
+    free(randvals);
+    //printf("sharenrs m.%d of n.%d\n",m,n);
     if ( remains != (orign - m) )
     {
         printf("remains algo error??\n");

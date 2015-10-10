@@ -6,7 +6,7 @@
  * holder information and the developer policies on copyright and licensing.  *
  *                                                                            *
  * Unless otherwise agreed in a custom licensing agreement, no part of the    *
- * Nxt software, including this file, may be copied, modified, propagated,    *
+ * SuperNET software, including this file may be copied, modified, propagated *
  * or distributed except according to the terms contained in the LICENSE file *
  *                                                                            *
  * Removal or modification of this copyright notice is prohibited.            *
@@ -557,7 +557,7 @@ int32_t PLUGNAME(_process_json)(char *forwarder,char *sender,int32_t valid,struc
         // configure settings
         RELAYS.readyflag = 1;
         plugin->allowremote = 1;
-        plugin->sleepmillis = 25;
+        plugin->sleepmillis = 100;
         strcpy(retbuf,"{\"result\":\"initflag > 0\"}");
     }
     else

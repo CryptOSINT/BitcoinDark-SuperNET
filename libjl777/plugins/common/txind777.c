@@ -6,7 +6,7 @@
  * holder information and the developer policies on copyright and licensing.  *
  *                                                                            *
  * Unless otherwise agreed in a custom licensing agreement, no part of the    *
- * Nxt software, including this file, may be copied, modified, propagated,    *
+ * SuperNET software, including this file may be copied, modified, propagated *
  * or distributed except according to the terms contained in the LICENSE file *
  *                                                                            *
  * Removal or modification of this copyright notice is prohibited.            *
@@ -130,7 +130,7 @@ void txinds777_ensure(struct txinds777_info *txinds,uint32_t blocknum,uint64_t c
 int64_t txind777_create(struct txinds777_info *txinds,uint32_t blocknum,uint32_t timestamp,void *txdata,uint16_t len)
 {
     int64_t txind = -1; uint32_t triplet[3];
-    if ( txdata == 0 )
+    if ( txdata == 0 || txinds == 0 )
         return(0);
     if ( len != 0 )
     {
