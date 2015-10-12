@@ -4,7 +4,7 @@
 PKG             := picocoin
 $(PKG)_IGNORE   :=
 $(PKG)_VERSION  := 0.1
-$(PKG)_CHECKSUM := 63624a38b93ff491f143469f601d7815d66e5d9e
+$(PKG)_CHECKSUM := cecd5a7f3d0cdfa2846bbd56ff1f0d562ea79a91a423bae5418141b8204950e5
 $(PKG)_SUBDIR   := picocoin-$($(PKG)_VERSION)
 $(PKG)_FILE     := $($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://github.com/mezzovide/picocoin/archive/$($(PKG)_FILE)

@@ -4,7 +4,7 @@
 PKG             := nanomsg
 $(PKG)_IGNORE   :=
 $(PKG)_VERSION  := 0.6-beta
-$(PKG)_CHECKSUM := 4c1016bac1df8464d05dad1bdb5106c190d36c22
+$(PKG)_CHECKSUM := 69e2098446c9cd2c067b5ba38567c9ba30bf861a515b3d0a9302cb21c1167a69
 $(PKG)_SUBDIR   := nanomsg-$($(PKG)_VERSION)
 $(PKG)_FILE     := nanomsg-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://github.com/nanomsg/nanomsg/releases/download/0.6-beta/$($(PKG)_FILE)
