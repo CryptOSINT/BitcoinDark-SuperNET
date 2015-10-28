@@ -20,8 +20,8 @@ zip -r BitcoinDark-SuperNET-build-linux64 plugins/cgi/*
 cd ..
 zip -r libjl777/BitcoinDark-SuperNET-build-linux64 btcd-web-wallet/*
 cd libjl777
-zip BitcoinDark-SuperNET-build-win64 bin/win64/BitcoinDarkd.exe SuperNET.conf.default
-zip -j BitcoinDark-SuperNET-build-win64 scripts/README.txt scripts/run.bat
+zip BitcoinDark-SuperNET-build-win64 SuperNET.conf.default
+zip -j BitcoinDark-SuperNET-build-win64 scripts/README.txt scripts/run.bat bin/win64/BitcoinDarkd.exe
 cd bin/win64
 zip -r ../../BitcoinDark-SuperNET-build-win64 plugins/cgi/*
 cd ../../..
